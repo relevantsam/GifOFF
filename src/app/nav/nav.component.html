@@ -1,0 +1,25 @@
+<nav class="nav has-shadow">
+  <div class="container">
+    <div class="nav-left">
+      <a class="nav-item">
+        <img src="assets/logo-small.png" alt="Gif Off">
+      </a>
+      <a class="nav-item is-tab is-hidden-mobile is-active">Find a GIF</a>
+    </div>
+    <span class="nav-toggle" (click)="menuActive = !menuActive" [ngClass]="{'is-active': menuActive}">
+      <span></span>
+      <span></span>
+      <span></span>
+    </span>
+    <div class="nav-right nav-menu" [ngClass]="{'is-active': menuActive}">
+      <a class="nav-item is-tab is-hidden-tablet is-active">Find a GIF</a>
+      <a class="nav-item is-tab" *ngIf="user">
+        <figure class="image is-16x16" style="margin-right: 8px;">
+          <img [src]="user.photoURL">
+        </figure>
+        {{user.displayName}}
+      </a>
+      <a class="nav-item is-tab" [innerText]="user ? 'Log out' : 'Log in'" (click)="user? logout() : login()"></a>
+    </div>
+  </div>
+</nav>

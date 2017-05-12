@@ -1,0 +1,21 @@
+<app-modal [isActive]="authorize" (deactivated)="authCanceled($event)">
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Authorization</p>
+    </header>
+    <section class="modal-card-body">
+      <p>For this app, I'll need you to sign in with a Google account. No worries if you don't have one - you can <a href="https://accounts.google.com/SignUp?hl=en" class="link" target="_blank">create one here</a> in just a few seconds!</p>
+      <hr />
+      <p>This information won't be used for nefarious purposes, or sold to advertising agencies, or generally abused. I just need to know who you are so I can personalize the interface, make sure certain actions are only done once per user, and maybe show you things you've saved before on this page. Thank you!</p>
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success" (click)='login()'> 
+          <span class="icon">
+          <i class="fa fa-google"></i>
+        </span>
+      <span>Sign In</span>
+      </button>
+      <a class="button" (click)="authCanceled($event)">Cancel</a>
+    </footer>
+  </div>
+</app-modal>

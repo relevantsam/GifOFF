@@ -1,0 +1,74 @@
+<app-nav (authorize)="openAuth($event)"></app-nav>
+  <section class="hero is-info is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Find a GIF that makes you <strong>happy</strong> and share it
+      </h1>
+      <h2 class="subtitle">
+        GIFs sourced from <strong>Tenor GIF API</strong> using strict safesearch - search responsibly
+      </h2>
+      <input type="text" class="input" [formControl]="searchTerm">
+      <a (click)="clear()">clear search</a>
+    </div>
+  </div>
+</section>
+<section class="section" *ngIf="gifs">
+  <div class="container is-fluid">
+    <div class="heading">
+      <h1 class="title">Results</h1>
+      <h2 class="subtitle">
+        <span  *ngIf="gifCount > 0;else noneFound">
+          Here are {{gifCount}} gifs for your search <strong>{{lastSearched}}</strong>
+        </span>
+        <ng-template #noneFound>Bummer - no GIFS found for your search <strong>{{lastSearched}}</strong></ng-template>
+      </h2>
+    </div>
+    <hr />
+    <div class="columns" *ngFor="let gifset of gifs">
+      <div class="column" *ngFor="let gif of gifset" >
+          <figure class="image">
+            <img [src]="gif.tinyurl" [alt]="gif.title">
+            
+            <div class="share" onclick="">
+              <a class="button is-primary is-inverted is-outlined is-vertically-centered" (click)="share(gif.id)">SHARE</a> 
+              <a class="button is-secondary is-inverted is-outlined is-vertically-centered" (click)="gif.imageClicked = true">ENLARGE</a> 
+            </div>
+          </figure>
+          <app-modal [isActive]="gif.imageClicked" (deactivated)="gif.imageClicked = false">
+            <figure class="image">
+              <img [src]="gif.url" [alt]="gif.title">
+            </figure>
+          </app-modal>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section" *ngIf="!gifs">
+  <div class="container is-fluid">
+    <div class="heading">
+      <h1 class="title">Shared Gifs</h1>
+      <h2 class="subtitle">
+        GIFS shared by other users! Watch for live updates!
+      </h2>
+    </div>
+    <hr />
+    <div class="columns" *ngFor="let gifset of sharedGifsList">
+      <div class="column" *ngFor="let gif of gifset" >
+          <figure class="image">
+            <img [src]="gif.tinyurl" [alt]="gif.title">
+            
+            <div class="share" onclick="">
+              <a class="button is-primary is-inverted is-outlined is-vertically-centered" (click)="gif.imageClicked = true">ENLARGE</a> 
+            </div>
+          </figure>
+          <app-modal [isActive]="gif.imageClicked" (deactivated)="gif.imageClicked = false">
+            <figure class="image">
+              <img [src]="gif.url" [alt]="gif.title">
+            </figure>
+          </app-modal>
+      </div>
+    </div>
+  </div>
+</section>
+<app-auth [authorize]="authorize" (canceled)="cancelAuth($event)"></app-auth>
